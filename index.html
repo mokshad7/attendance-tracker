@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily Attendance Tracker</title>
+    
+    <!-- PWA Meta Tags -->
+    <meta name="theme-color" content="#4CAF50">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Attendance Tracker">
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- PWA Icons -->
+    <link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDE5MiAxOTIiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxOTIiIGhlaWdodD0iMTkyIiByeD0iMjQiIGZpbGw9IiM0Q0FGNTAI+CjxwYXRoIGQ9Ik00OCA2NEg0OFY0OEg2NFY2NEg0OFpNNjQgODBINDhWOTZINjRWODBaTTQ4IDExMkg2NFYxMjhINDhWMTEyWk02NCAxNDRINDhWMTYwSDY0VjE0NFpNODAgNjRIOTZWNDhIODBWNjRaTTgwIDgwSDk2Vjk2SDgwVjgwWk04MCAxMTJIOTZWMTI4SDgwVjExMlpNODAgMTQ0SDk2VjE2MEg4MFYxNDRaTTExMiA2NEgxMjhWNDhIMTEyVjY0WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMzIiIGhlaWdodD0iMzIiIHZpZXdCb3g9IjAgMCAzMiAzMiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iNCIgZmlsbD0iIzRDQUY1MCI+Cjx0ZXh0IHg9IjUiIHk9IjIyIiBmb250LWZhbWlseT0ic3lzdGVtLXVpLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE2IiBmb250LXdlaWdodD0iYm9sZCIgZmlsbD0id2hpdGUiPtCfkI08L3RleHQ+Cjwvc3ZnPg==">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="data:application/json;base64,ewogICJuYW1lIjogIkRhaWx5IEF0dGVuZGFuY2UgVHJhY2tlciIsCiAgInNob3J0X25hbWUiOiAiQXR0ZW5kYW5jZSIsCiAgImRlc2NyaXB0aW9uIjogIlRyYWNrIHlvdXIgZGFpbHkgb2ZmaWNlIGF0dGVuZGFuY2Ugd2l0aCBjbG9jay1pbi9vdXQgZmVhdHVyZXMiLAogICJzdGFydF91cmwiOiAiLyIsCiAgImRpc3BsYXkiOiAic3RhbmRhbG9uZSIsCiAgInRoZW1lX2NvbG9yIjogIiM0Q0FGNTAILAOGICAIYWDRZ3JvdW5kX2NvbG9yIjogIiNmZmZmZmYiLAogICJvcmllbnRhdGlvbiI6ICJwb3J0cmFpdCIsCiAgImljb25zIjogWwogICAgewogICAgICAic3JjIjogImRhdGE6aW1hZ2Uvc3ZnK3htbDtiYXNlNjQsUEhOMlp5QjNhV1IwYUQwaE1Ua3lJaUJvWldsbmFIUTlJakU1TWlJaWRtbGxkMEp2ZUQwaU1DQXdJREU1TWlBeE9USWlJR1pwYkd3OUltNXZibVVpSUhodGJHNXpQU0pvZEhSd09pOHZkM2QzTG5jekxtOXlaeTh5TURBd0wzTjJaeUkrQ2p4eVpXTjBJSGRwWkhSb1BTSXhPVElpSUdobGFXZG9kRDBpTVRreUlpQnllRDBpTWpRaUlHWnBiR3c5SWlNMFEwRkdOVEFpTHo0S1BIQmhkR2dnWkQwaVRUUTRJRFkwU0RROE9WWTBPRWcyTkZZMk5FZzBPRnBOTmpRZ09EQklORGhXT1RaSU5qUldPREJOTkRnZ01URXlTRFkwVmpFeU9FZzBPRlkxTXpBa01qVXhNakY5SURncERrTXhNVElnT0ZRNK0NVdzVXcyRWZXaUJNVFFsWV1xczRJYUUKRgp0eXUJNE5sUUpaRzBnTFRZdmJJNGQUSTBac2R5NE1lJ2JJWWloUGFnN1kxQjlPRWM3WnlBdU6c2h8dDF3d2JrbFJXTSIsCiAgICAgICJzaXplcyI6ICIxOTJ4MTkyIiwKICAgICAgInR5cGUiOiAiaW1hZ2Uvc3ZnK3htbCIKICAgIH0sCiAgICB7CiAgICAgICJzcmMiOiAiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE4yWnlCM2FXUjBhRDBpTlRFeUlpQm9aV2xuYUhROU15QXlJRFV4TWlJaWRtbGxkMEp2ZUQwaU1DQXdJRFV4TWlBMU1USWlJR1pwYkd3OUltNXZibVVpSUhodGJHNXpQU0pvZEhSd09pOHZkM2QzTG5jekxtOXlaeTh5TURBd0wzTjJaeUkrQ2p4eVpXTjBJSGRwWkhSb1BTSTFNVElpSUdobGFXZG9kRDBpTlRFeUlpQnllRDBpTWpRaUlHWnBiR3c5SWlNMFEwRkdOVEFpTHo0S1BHOTNaM2dnZUQwaU1URTJJaUI1UFNJeE1UWWlJR1pwYkd3OUluZG9hWFJsSWlCbWIyNTBMWE5wZW1VOUlqSTBJaUIwWlhoMExXRnVZMmh2Y2owaWJXbGtaR3hsSTNSbGVIUTlJaTVqT1RCVFNEUnpjeUkrY4YhMUZqNE44dmpGcWYzcWd3Zz09IiwKICAgICAgInNpemVzIjogIjUxMng1MTIiLAogICAgICAidHlwZSI6ICJpbWFnZS9zdmcreG1sIgogICAgfQogIF0sCiAgImNhdGVnb3JpZXMiOiBbImJ1c2luZXNzIiwgInByb2R1Y3Rpdml0eSJdLAogICJsYW5nIjogImVuLVVTIgp9">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #e8f5e8 0%, #f0f9f0 100%);
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4CAF50 0%, #45a049 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .current-time {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .dashboard {
+            background: #f8fdf8;
+            padding: 20px;
+            border-bottom: 1px solid #e8f5e8;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border: 2px solid transparent;
+        }
+
+        .stat-card.green {
+            border-color: #4CAF50;
+        }
+
+        .stat-card.red {
+            border-color: #f44336;
+        }
+
+        .stat-value {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+        }
+
+        .clock-section {
+            padding: 20px;
+        }
+
+        .clock-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .clock-btn {
+            padding: 15px;
+            border: none;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: white;
+            position: relative;
+        }
+
+        .clock-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .clock-btn.morning { background: #4CAF50; }
+        .clock-btn.lunch { background: #FF9800; }
+        .clock-btn.tea { background: #9C27B0; }
+        .clock-btn.final { background: #f44336; }
+
+        .clock-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .timestamp {
+            font-size: 11px;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        .remarks-section {
+            padding: 0 20px 20px;
+        }
+
+        .remarks-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 60px;
+        }
+
+        .remarks-input:focus {
+            outline: none;
+            border-color: #4CAF50;
+        }
+
+        .export-section {
+            padding: 0 20px 20px;
+            display: flex;
+            gap: 10px;
+        }
+
+        .export-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #4CAF50;
+            background: white;
+            color: #4CAF50;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .export-btn:hover {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .logs-section {
+            margin-top: 20px;
+            background: white;
+            border-radius: 20px 20px 0 0;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+        }
+
+        .logs-header {
+            background: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .logs-table {
+            overflow-x: auto;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+        }
+
+        th, td {
+            padding: 8px 4px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f5f5f5;
+            font-weight: bold;
+            position: sticky;
+            top: 0;
+        }
+
+        .total-hours.green {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .total-hours.red {
+            color: #f44336;
+            font-weight: bold;
+        }
+
+        .reset-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            margin: 10px 20px 20px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                margin: 0;
+                border-radius: 0;
+            }
+            
+            .clock-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            table {
+                font-size: 10px;
+            }
+            
+            th, td {
+                padding: 6px 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Attendance Tracker</h1>
+            <div class="current-time" id="currentTime"></div>
+        </div>
+
+        <div class="dashboard">
+            <div class="dashboard-grid">
+                <div class="stat-card" id="todayHoursCard">
+                    <div class="stat-value" id="todayHours">0:00</div>
+                    <div class="stat-label">Today's Hours</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="weeklyHours">0:00</div>
+                    <div class="stat-label">Weekly Hours</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="weeklyAvg">0:00</div>
+                    <div class="stat-label">Weekly Avg</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="overtime">0:00</div>
+                    <div class="stat-label">Overtime/Shortfall</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="clock-section">
+            <div class="clock-grid">
+                <button class="clock-btn morning" id="morningIn" onclick="clockAction('morningIn')">
+                    🌅 Morning In
+                    <div class="timestamp" id="morningInTime"></div>
+                </button>
+                <button class="clock-btn lunch" id="lunchOut" onclick="clockAction('lunchOut')" disabled>
+                    🍽️ Lunch Out
+                    <div class="timestamp" id="lunchOutTime"></div>
+                </button>
+                <button class="clock-btn lunch" id="lunchIn" onclick="clockAction('lunchIn')" disabled>
+                    🍽️ Lunch In
+                    <div class="timestamp" id="lunchInTime"></div>
+                </button>
+                <button class="clock-btn tea" id="teaOut" onclick="clockAction('teaOut')" disabled>
+                    ☕ Tea Out
+                    <div class="timestamp" id="teaOutTime"></div>
+                </button>
+                <button class="clock-btn tea" id="teaIn" onclick="clockAction('teaIn')" disabled>
+                    ☕ Tea In
+                    <div class="timestamp" id="teaInTime"></div>
+                </button>
+                <button class="clock-btn final" id="finalOut" onclick="clockAction('finalOut')" disabled>
+                    🏠 Finally Out
+                    <div class="timestamp" id="finalOutTime"></div>
+                </button>
+            </div>
+        </div>
+
+        <div class="remarks-section">
+            <textarea class="remarks-input" placeholder="Add remarks for today..." id="remarksInput"></textarea>
+        </div>
+
+        <div class="export-section">
+            <button class="export-btn" onclick="exportToCSV()">📊 Export CSV</button>
+            <button class="export-btn" onclick="exportToExcel()">📈 Export Excel</button>
+        </div>
+
+        <button class="reset-btn" onclick="resetToday()">🔄 Reset Today</button>
+    </div>
+
+    <div class="logs-section">
+        <div class="logs-header">📊 Daily Logs</div>
+        <div class="logs-table">
+            <table id="logsTable">
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Day</th>
+                        <th>Morning In</th>
+                        <th>Lunch Out</th>
+                        <th>Lunch In</th>
+                        <th>Tea Out</th>
+                        <th>Tea In</th>
+                        <th>Finally Out</th>
+                        <th>Total Hours</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody id="logsBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Data storage
+        let attendanceData = JSON.parse(localStorage.getItem('attendanceData') || '{}');
+        let currentDate = new Date().toISOString().split('T')[0];
+
+        // Initialize today's data if not exists
+        if (!attendanceData[currentDate]) {
+            attendanceData[currentDate] = {
+                date: currentDate,
+                day: new Date().toLocaleDateString('en-US', { weekday: 'short' }),
+                morningIn: '',
+                lunchOut: '',
+                lunchIn: '',
+                teaOut: '',
+                teaIn: '',
+                finalOut: '',
+                remarks: '',
+                totalHours: '0:00'
+            };
+        }
+
+        function updateCurrentTime() {
+            const now = new Date();
+            document.getElementById('currentTime').textContent = now.toLocaleString();
+        }
+
+        function clockAction(action) {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour12: false });
+            
+            attendanceData[currentDate][action] = timeString;
+            document.getElementById(action + 'Time').textContent = timeString;
+            
+            // Update button states
+            updateButtonStates();
+            
+            // Calculate total hours
+            calculateTotalHours();
+            
+            // Save data
+            saveData();
+            
+            // Update dashboard
+            updateDashboard();
+        }
+
+        function updateButtonStates() {
+            const today = attendanceData[currentDate];
+            
+            // Enable/disable buttons based on sequence
+            document.getElementById('lunchOut').disabled = !today.morningIn;
+            document.getElementById('lunchIn').disabled = !today.lunchOut;
+            document.getElementById('teaOut').disabled = !today.lunchIn;
+            document.getElementById('teaIn').disabled = !today.teaOut;
+            document.getElementById('finalOut').disabled = !today.teaIn;
+            
+            // Update display times
+            Object.keys(today).forEach(key => {
+                if (key.includes('In') || key.includes('Out')) {
+                    const element = document.getElementById(key + 'Time');
+                    if (element && today[key]) {
+                        element.textContent = today[key];
+                    }
+                }
+            });
+        }
+
+        function calculateTotalHours() {
+            const today = attendanceData[currentDate];
+            
+            if (!today.morningIn || !today.finalOut) {
+                today.totalHours = '0:00';
+                return;
+            }
+
+            const morningIn = new Date(`2000-01-01 ${today.morningIn}`);
+            const finalOut = new Date(`2000-01-01 ${today.finalOut}`);
+            
+            let totalMinutes = (finalOut - morningIn) / (1000 * 60);
+            
+            // Subtract break times
+            if (today.lunchOut && today.lunchIn) {
+                const lunchOut = new Date(`2000-01-01 ${today.lunchOut}`);
+                const lunchIn = new Date(`2000-01-01 ${today.lunchIn}`);
+                totalMinutes -= (lunchIn - lunchOut) / (1000 * 60);
+            }
+            
+            if (today.teaOut && today.teaIn) {
+                const teaOut = new Date(`2000-01-01 ${today.teaOut}`);
+                const teaIn = new Date(`2000-01-01 ${today.teaIn}`);
+                totalMinutes -= (teaIn - teaOut) / (1000 * 60);
+            }
+            
+            const hours = Math.floor(totalMinutes / 60);
+            const minutes = Math.floor(totalMinutes % 60);
+            today.totalHours = `${hours}:${minutes.toString().padStart(2, '0')}`;
+        }
+
+        function saveData() {
+            // Save remarks
+            attendanceData[currentDate].remarks = document.getElementById('remarksInput').value;
+            localStorage.setItem('attendanceData', JSON.stringify(attendanceData));
+            updateLogsTable();
+        }
+
+        function updateDashboard() {
+            const today = attendanceData[currentDate];
+            const todayHoursElement = document.getElementById('todayHours');
+            const todayHoursCard = document.getElementById('todayHoursCard');
+            
+            // Update today's hours
+            todayHoursElement.textContent = today.totalHours;
+            
+            // Color coding for today's hours
+            const [hours, minutes] = today.totalHours.split(':').map(Number);
+            const totalMinutes = hours * 60 + minutes;
+            const requiredMinutes = 8 * 60 + 30; // 8:30
+            
+            todayHoursCard.className = 'stat-card ' + (totalMinutes >= requiredMinutes ? 'green' : 'red');
+            
+            // Calculate weekly stats
+            const weekStart = getWeekStart(new Date());
+            let weeklyMinutes = 0;
+            let daysWorked = 0;
+            
+            for (let i = 0; i < 7; i++) {
+                const date = new Date(weekStart);
+                date.setDate(date.getDate() + i);
+                const dateString = date.toISOString().split('T')[0];
+                
+                if (attendanceData[dateString] && attendanceData[dateString].totalHours !== '0:00') {
+                    const [h, m] = attendanceData[dateString].totalHours.split(':').map(Number);
+                    weeklyMinutes += h * 60 + m;
+                    daysWorked++;
+                }
+            }
+            
+            const weeklyHours = Math.floor(weeklyMinutes / 60);
+            const weeklyMins = weeklyMinutes % 60;
+            document.getElementById('weeklyHours').textContent = `${weeklyHours}:${weeklyMins.toString().padStart(2, '0')}`;
+            
+            // Weekly average
+            if (daysWorked > 0) {
+                const avgMinutes = weeklyMinutes / daysWorked;
+                const avgHours = Math.floor(avgMinutes / 60);
+                const avgMins = Math.floor(avgMinutes % 60);
+                document.getElementById('weeklyAvg').textContent = `${avgHours}:${avgMins.toString().padStart(2, '0')}`;
+            } else {
+                document.getElementById('weeklyAvg').textContent = '0:00';
+            }
+            
+            // Overtime/Shortfall
+            const expectedWeeklyMinutes = daysWorked * requiredMinutes;
+            const difference = weeklyMinutes - expectedWeeklyMinutes;
+            const diffHours = Math.floor(Math.abs(difference) / 60);
+            const diffMins = Math.abs(difference) % 60;
+            const diffSign = difference >= 0 ? '+' : '-';
+            document.getElementById('overtime').textContent = `${diffSign}${diffHours}:${diffMins.toString().padStart(2, '0')}`;
+        }
+
+        function getWeekStart(date) {
+            const d = new Date(date);
+            const day = d.getDay();
+            const diff = d.getDate() - day + (day === 0 ? -6 : 1); // Adjust for Monday start
+            return new Date(d.setDate(diff));
+        }
+
+        function updateLogsTable() {
+            const tbody = document.getElementById('logsBody');
+            tbody.innerHTML = '';
+            
+            // Sort dates in descending order
+            const sortedDates = Object.keys(attendanceData).sort((a, b) => new Date(b) - new Date(a));
+            
+            sortedDates.forEach(date => {
+                const data = attendanceData[date];
+                const row = tbody.insertRow();
+                
+                row.innerHTML = `
+                    <td>${new Date(date).toLocaleDateString()}</td>
+                    <td>${data.day}</td>
+                    <td>${data.morningIn}</td>
+                    <td>${data.lunchOut}</td>
+                    <td>${data.lunchIn}</td>
+                    <td>${data.teaOut}</td>
+                    <td>${data.teaIn}</td>
+                    <td>${data.finalOut}</td>
+                    <td class="total-hours ${getTotalHoursClass(data.totalHours)}">${data.totalHours}</td>
+                    <td>${data.remarks}</td>
+                `;
+            });
+        }
+
+        function getTotalHoursClass(totalHours) {
+            const [hours, minutes] = totalHours.split(':').map(Number);
+            const totalMinutes = hours * 60 + minutes;
+            return totalMinutes >= 510 ? 'green' : 'red'; // 510 = 8:30
+        }
+
+        function exportToCSV() {
+            let csv = 'Date,Day,Morning In,Lunch Out,Lunch In,Tea Out,Tea In,Finally Out,Total Hours,Remarks\n';
+            
+            Object.keys(attendanceData).sort().forEach(date => {
+                const data = attendanceData[date];
+                csv += `${data.date},${data.day},${data.morningIn},${data.lunchOut},${data.lunchIn},${data.teaOut},${data.teaIn},${data.finalOut},${data.totalHours},"${data.remarks}"\n`;
+            });
+            
+            downloadFile(csv, 'attendance-log.csv', 'text/csv');
+        }
+
+        function exportToExcel() {
+            let html = '<table><tr><th>Date</th><th>Day</th><th>Morning In</th><th>Lunch Out</th><th>Lunch In</th><th>Tea Out</th><th>Tea In</th><th>Finally Out</th><th>Total Hours</th><th>Remarks</th></tr>';
+            
+            Object.keys(attendanceData).sort().forEach(date => {
+                const data = attendanceData[date];
+                html += `<tr><td>${data.date}</td><td>${data.day}</td><td>${data.morningIn}</td><td>${data.lunchOut}</td><td>${data.lunchIn}</td><td>${data.teaOut}</td><td>${data.teaIn}</td><td>${data.finalOut}</td><td>${data.totalHours}</td><td>${data.remarks}</td></tr>`;
+            });
+            
+            html += '</table>';
+            downloadFile(html, 'attendance-log.xls', 'application/vnd.ms-excel');
+        }
+
+        function downloadFile(content, filename, contentType) {
+            const blob = new Blob([content], { type: contentType });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(a);
+        }
+
+        function resetToday() {
+            if (confirm('Are you sure you want to reset today\'s attendance? This cannot be undone.')) {
+                attendanceData[currentDate] = {
+                    date: currentDate,
+                    day: new Date().toLocaleDateString('en-US', { weekday: 'short' }),
+                    morningIn: '',
+                    lunchOut: '',
+                    lunchIn: '',
+                    teaOut: '',
+                    teaIn: '',
+                    finalOut: '',
+                    remarks: '',
+                    totalHours: '0:00'
+                };
+                
+                // Clear all timestamp displays
+                document.querySelectorAll('.timestamp').forEach(el => el.textContent = '');
+                document.getElementById('remarksInput').value = '';
+                
+                updateButtonStates();
+                updateDashboard();
+                saveData();
+            }
+        }
+
+        // Initialize app
+        function init() {
+            updateCurrentTime();
+            setInterval(updateCurrentTime, 1000);
+            updateButtonStates();
+            calculateTotalHours();
+            updateDashboard();
+            updateLogsTable();
+            
+            // Load today's remarks
+            document.getElementById('remarksInput').value = attendanceData[currentDate].remarks || '';
+            
+            // Auto-save remarks
+            document.getElementById('remarksInput').addEventListener('input', saveData);
+        }
+
+        // PWA Service Worker Registration
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // Create service worker inline
+                const swCode = `
+                const CACHE_NAME = 'attendance-tracker-v1';
+                const urlsToCache = [
+                    '/',
+                    '/index.html'
+                ];
+
+                self.addEventListener('install', event => {
+                    event.waitUntil(
+                        caches.open(CACHE_NAME)
+                            .then(cache => cache.addAll(urlsToCache))
+                    );
+                });
+
+                self.addEventListener('fetch', event => {
+                    event.respondWith(
+                        caches.match(event.request)
+                            .then(response => {
+                                if (response) {
+                                    return response;
+                                }
+                                return fetch(event.request);
+                            }
+                        )
+                    );
+                });
+                `;
+                
+                const blob = new Blob([swCode], { type: 'application/javascript' });
+                const swUrl = URL.createObjectURL(blob);
+                
+                navigator.serviceWorker.register(swUrl)
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+
+        // PWA Install Prompt
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            showInstallButton();
+        });
+
+        function showInstallButton() {
+            const installBtn = document.createElement('button');
+            installBtn.textContent = '📱 Install App';
+            installBtn.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                right: 20px;
+                background: #4CAF50;
+                color: white;
+                border: none;
+                padding: 12px 16px;
+                border-radius: 25px;
+                font-weight: bold;
+                cursor: pointer;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+                z-index: 1000;
+                animation: pulse 2s infinite;
+            `;
+            
+            installBtn.addEventListener('click', () => {
+                if (deferredPrompt) {
+                    deferredPrompt.prompt();
+                    deferredPrompt.userChoice.then((choiceResult) => {
+                        if (choiceResult.outcome === 'accepted') {
+                            console.log('User accepted the install prompt');
+                        }
+                        deferredPrompt = null;
+                        installBtn.remove();
+                    });
+                }
+            });
+            
+            document.body.appendChild(installBtn);
+        }
+
+        // Add pulse animation for install button
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes pulse {
+                0% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+                100% { transform: scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // Start the app
+        init();
+    </script>
+</body>
+</html>
